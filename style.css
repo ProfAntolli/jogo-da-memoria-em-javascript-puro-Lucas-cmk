@@ -2,6 +2,7 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     background: #f0f0f0;
+    padding: 20px;
 }
 
 .game-container {
@@ -16,16 +17,18 @@ body {
     width: 100px;
     height: 100px;
     background: #3498db;
-    border-radius: 5px;
+    color: white;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
+    font-size: 40px;
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: all 0.3s ease;
 }
 
 .card.flipped {
     background: white;
+    color: #3498db;
     transform: rotateY(180deg);
 }

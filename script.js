@@ -1,54 +1,55 @@
-const cards = ['🦸', '🦹', '🧙', '🧚', '🦸', '🦹', '🧙', '🧚'];
-let flippedCards = [];
-let matchedCards = [];
+document.addEventListener('DOMContentLoaded', () => {
+    const emojis = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼'];
+    const cards = [...emojis, ...emojis];
+    let flippedCards = [];
+    let matchedPairs = 0;
 
-function shuffle(array) {
-    return array.sort(() => Math.random() - 0.5);
-}
+    // Embaralha as cartas
+    cards.sort(() => 0.5 - Math.random());
 
-function createGame() {
-    const gameContainer = document.querySelector('.game-container');
-    const shuffledCards = shuffle(cards);
+    // Cria o tabuleiro
+    const gameContainer = document.getElementById('game');
+    gameContainer.innerHTML = '';
     
-    shuffledCards.forEach((emoji, index) => {
+    cards.forEach((emoji, index) => {
         const card = document.createElement('div');
-        card.classList.add('card');
+        card.className = 'card';
         card.dataset.index = index;
-        card.textContent = emoji;
-        card.style.display = 'none'; // Esconde inicialmente
+        card.dataset.value = emoji;
+        card.innerHTML = '<span style="display:none">' + emoji + '</span>';
         card.addEventListener('click', flipCard);
         gameContainer.appendChild(card);
     });
-}
 
-function flipCard() {
-    if (flippedCards.length < 2 && !flippedCards.includes(this)) {
-        this.style.display = 'flex';
-        this.classList.add('flipped');
-        flippedCards.push(this);
+    // Função para virar carta
+    function flipCard() {
+        if (flippedCards.length < 2 && !this.classList.contains('flipped')) {
+            this.classList.add('flipped');
+            this.querySelector('span').style.display = 'block';
+            flippedCards.push(this);
+
+            if (flippedCards.length === 2) {
+                setTimeout(checkMatch, 500);
+            }
+        }
+    }
+
+    // Verifica se as cartas são iguais
+    function checkMatch() {
+        const [card1, card2] = flippedCards;
         
-        if (flippedCards.length === 2) {
-            setTimeout(checkMatch, 500);
+        if (card1.dataset.value === card2.dataset.value) {
+            matchedPairs++;
+            if (matchedPairs === emojis.length) {
+                setTimeout(() => alert('Parabéns! Você venceu! 🎉'), 300);
+            }
+        } else {
+            card1.classList.remove('flipped');
+            card2.classList.remove('flipped');
+            card1.querySelector('span').style.display = 'none';
+            card2.querySelector('span').style.display = 'none';
         }
+        
+        flippedCards = [];
     }
-}
-
-function checkMatch() {
-    const [card1, card2] = flippedCards;
-    
-    if (card1.textContent === card2.textContent) {
-        matchedCards.push(card1, card2);
-        if (matchedCards.length === cards.length) {
-            alert('Você venceu! 🎉');
-        }
-    } else {
-        card1.style.display = 'none';
-        card2.style.display = 'none';
-        card1.classList.remove('flipped');
-        card2.classList.remove('flipped');
-    }
-    
-    flippedCards = [];
-}
-
-createGame();
+});

@@ -1,14 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Emojis personalizados (os que você pediu)
     const emojis = ['😒', '😊', '😂', '😁', '😉', '😎', '😜', '🤔'];
-    const cards = [...emojis, ...emojis]; // Duplica para formar pares
+    const cards = [...emojis, ...emojis];
     let flippedCards = [];
     let matchedPairs = 0;
 
-    // Embaralha as cartas
     cards.sort(() => 0.5 - Math.random());
 
-    // Cria o tabuleiro
     const gameContainer = document.getElementById('game');
     
     cards.forEach((emoji, index) => {
@@ -20,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
         gameContainer.appendChild(card);
     });
 
-    // Função para virar carta
     function flipCard() {
         if (flippedCards.length < 2 && !this.classList.contains('flipped')) {
             this.classList.add('flipped');
@@ -32,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Verifica se as cartas são iguais
     function checkMatch() {
         const [card1, card2] = flippedCards;
         
